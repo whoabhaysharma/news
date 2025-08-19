@@ -34,6 +34,8 @@ export async function modifyNewsTitles(articles) {
     },
   });
 
+  console.log(response.text, 'RESPONSEEE')
+
   try {
     const modifiedTitles = JSON.parse(response.text);
 
@@ -43,7 +45,8 @@ export async function modifyNewsTitles(articles) {
 
     const modifiedArticles = articles.map((article, index) => ({
       ...article,
-      title: modifiedTitles[index] || article.title,
+      title: modifiedTitles[index],
+      originalTitle: article.title, // Store original title
     }));
 
     return modifiedArticles;

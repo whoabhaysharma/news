@@ -19,6 +19,7 @@ export const FirebaseNewsSchema = z.object({
     link: z.string().url(),
     pubDate: z.string(),
     description: z.string(),
+    originalTitle: z.string(), // Added originalTitle field
     created: z.string().datetime(),
   }),
 });
