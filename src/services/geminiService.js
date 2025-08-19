@@ -8,17 +8,17 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 /**
  * Modifies the titles of a list of news articles using the Gemini API.
  *
- * @param {Array<Object>} articles - An array of article objects, each with a 'title' property.
- * @returns {Promise<Array<Object>>} A promise that resolves to the array of articles with modified titles.
+ * @param {Array<Object>} articles - An array of article objects, each with 'title' and 'description' properties.
+ * @returns {Promise<Array<Object>>} A promise that resolves to the array of articles with updated titles.
  */
 export async function modifyNewsTitles(articles) {
   if (!articles || articles.length === 0) {
     return articles;
   }
 
-  const originalTitles = articles.map((article) => article.title);
+  const originalContexts = articles.map((article) => `${article.title} - ${article.description}`);
 
-  const contents = process.env.GEMINI_INSTRUCTION.replace(process.env.GEMINI_MACRO, JSON.stringify(originalTitles));
+  const contents = process.env.GEMINI_INSTRUCTION.replace(process.env.GEMINI_MACRO, JSON.stringify(originalContexts));
 
   const response = await ai.models.generateContent({
     model: process.env.GEMINI_MODEL,
