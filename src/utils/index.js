@@ -1,7 +1,9 @@
 import { fetchNews } from './newsFetcher.js';
+import {db} from './firebase.js';
 
-export { fetchNews };
+export { fetchNews, db };
 
 export default {
   fetchNews,
+  db
 };
