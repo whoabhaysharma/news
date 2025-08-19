@@ -3,6 +3,7 @@ import { db } from "../utils/firebase.js";
 import { NewsSchema, FirebaseNewsSchema } from "../models/schemas.js";
 import dotenv from "dotenv";
 import { fetchExistingNews } from "../utils/firebaseNewsUtils.js";
+import { modifyNewsTitles } from './geminiService.js';
 
 dotenv.config();
 
@@ -24,9 +25,11 @@ export const publishNews = async () => {
       return !existingNews.some((existing) => existing.title === article.title);
     });
 
+    const articlesWithModifiedTitles = await modifyNewsTitles(newArticles);
+
     // Push new articles to Firebase
     const batch = db.batch();
-    newArticles.forEach((article) => {
+    articlesWithModifiedTitles.forEach((article) => {
       const docRef = db.collection("news").doc();
       const firebaseArticle = FirebaseNewsSchema.parse({
         id: docRef.id,
