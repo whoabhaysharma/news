@@ -6,11 +6,8 @@ describe("Firebase Util", () => {
   });
 
   it("should fetch collections without error", async () => {
-    try {
-      const snapshot = await db.collection("news").get();
-      expect(snapshot).toBeDefined();
-    } catch (error) {
-      throw new Error("Error fetching Firestore collections: " + error.message);
-    }
+    const snapshot = await db.collection("news").get();
+    expect(snapshot).toBeDefined();
+    expect(snapshot.empty).toBe(false);
   });
 });
