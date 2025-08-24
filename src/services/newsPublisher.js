@@ -55,6 +55,12 @@ export const publishNews = async () => {
 
     await batch.commit();
     logger.info(`Successfully published ${articlesWithModifiedTitles.length} new articles.`);
+
+    // Log published articles in chunks of 5 with full object details
+    for (let i = 0; i < articlesWithModifiedTitles.length; i += 5) {
+      const chunk = articlesWithModifiedTitles.slice(i, i + 5);
+      logger.info(`Published articles chunk: ${JSON.stringify(chunk, null, 2)}`);
+    }
   } catch (error) {
     logger.error({ err: error }, "Error publishing news.");
     throw error;
